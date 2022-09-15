@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "266d3274-7326-4b18-86a3-a8afdf9592ea",
+		"_postman_id": "0836459a-7fc9-4a0d-9ac7-97c4e764ebd8",
 		"name": "booker",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -64,6 +64,85 @@
 						}
 					},
 					"response": []
+				}
+			]
+		},
+		{
+			"name": "booking",
+			"item": [
+				{
+					"name": "create booking",
+					"item": [
+						{
+							"name": "/create booking",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"eval(pm.environment.get('helpers'));",
+											"",
+											"pm.test('should response be valid', function () {",
+											"    assertSuccessfulResponse(pm.response, 200);",
+											"});",
+											"",
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"bookingId\", jsonData.bookingid);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"firstname\" : \"Jim\",\n    \"lastname\" : \"Brown\",\n    \"totalprice\" : 111,\n    \"depositpaid\" : true,\n    \"bookingdates\" : {\n        \"checkin\" : \"2022-01-01\",\n        \"checkout\" : \"2022-01-10\"\n    },\n    \"additionalneeds\" : \"Breakfast\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/booking",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"booking"
+									]
+								},
+								"description": "Request that allows you to create a Booking within the API. This request creates the booking using JSON."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "get booking",
+					"item": [
+						{
+							"name": "/get booking",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/booking/{{bookingId}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"booking",
+										"{{bookingId}}"
+									]
+								},
+								"description": "Requests a specific booking that exists within the API. To get a list of valid booking IDs using GetBookingIds calls."
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}
