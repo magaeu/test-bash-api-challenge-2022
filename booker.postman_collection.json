@@ -14,7 +14,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "{{host}}",
+							"host": [
+								"{{host}}"
+							]
 						}
 					},
 					"response": []
@@ -125,6 +128,21 @@
 					"item": [
 						{
 							"name": "/get booking",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"eval(pm.environment.get('helpers'));",
+											"",
+											"pm.test('should response be valid', function () {",
+											"    assertSuccessfulResponse(pm.response, 200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "GET",
 								"header": [],
