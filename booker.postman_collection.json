@@ -192,10 +192,7 @@
 											"",
 											"pm.test('should response be valid', function () {",
 											"    assertSuccessfulResponse(pm.response, 200);",
-											"});",
-											"",
-											"var jsonData = JSON.parse(responseBody);",
-											"postman.setEnvironmentVariable(\"bookingId\", jsonData.bookingid);"
+											"});"
 										],
 										"type": "text/javascript"
 									}
@@ -243,6 +240,48 @@
 											"pm.test('should response be valid', function () {",
 											"    assertSuccessfulResponse(pm.response, 200);",
 											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Request create booking",
+											"const createBooking = {",
+											"  url: pm.environment.get(\"host\") + \"/booking\",",
+											"  method: 'POST',",
+											"  header: {",
+											"    'Content-Type': 'application/json'",
+											"  },",
+											"  body: {",
+											"    mode: 'application/json',",
+											"    raw: JSON.stringify({",
+											"    \"firstname\" : \"Sarah\",",
+											"    \"lastname\" : \"Brown\",",
+											"    \"totalprice\" : 120,",
+											"    \"depositpaid\" : true,",
+											"    \"bookingdates\" : {",
+											"        \"checkin\" : \"2022-01-02\",",
+											"        \"checkout\" : \"2022-01-11\"",
+											"    },",
+											"    \"additionalneeds\" : \"Breakfast\"",
+											"})",
+											"  }",
+											"};",
+											"",
+											"// Post request to create booking",
+											"pm.sendRequest(createBooking, (error, response) => {",
+											"  if (error) {",
+											"    console.log(error);",
+											"  } else {",
+											"  console.log(response.json());",
+											"  var jsonData = response.json();",
+											"  postman.setEnvironmentVariable(\"bookingId\", jsonData.bookingid);",
+											"  }",
+											"});",
+											""
 										],
 										"type": "text/javascript"
 									}
